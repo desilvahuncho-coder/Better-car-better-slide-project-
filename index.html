@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carzz | Better car, better life</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#E9EEF0;--card:#fff;--ink:#0F1B22;--mute:#5B6B74;--line:#CBD5DA;--amber:#F2B705;--red:#C8321E;--green:#1F7A4D;--teal:#0E5A52}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Barlow,system-ui,sans-serif;font-size:16px;line-height:1.5}
+.tape{height:14px;background:repeating-linear-gradient(-45deg,var(--amber) 0 14px,var(--ink) 14px 28px)}
+main{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+h1{font-family:"Barlow Condensed",sans-serif;font-size:44px;line-height:1;margin:8px 0 6px;letter-spacing:.2px}
+h2{font-family:"Barlow Condensed",sans-serif;font-size:24px;margin:28px 0 10px}
+.lead{color:var(--mute);margin:0 0 8px}
+input[type=text]{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:12px;text-align:left;font:inherit;color:var(--ink);cursor:pointer}
+.opt b{display:block;font-family:"Barlow Condensed",sans-serif;font-size:21px;text-transform:capitalize}
+.opt span{font-size:13px;color:var(--mute);line-height:1.3;display:block}
+.opt[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);background:#FFF8DC}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:inherit;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.hide{display:none}
+.note{background:#FFF3C4;border-left:6px solid var(--amber);padding:12px 14px;border-radius:4px;font-size:15px;margin:12px 0}
+.cause{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:14px;margin-bottom:10px}
+.cause h3{margin:0 0 2px;font-size:17px;font-weight:600}
+.bar{height:8px;background:#E3E9EC;border-radius:4px;margin:8px 0;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--teal)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--mute);align-items:center}
+.tag{font-weight:600;font-size:13px;color:#fff;padding:2px 9px;border-radius:4px}
+.red{background:var(--red)}.amber{background:#8A6500}.green{background:var(--green)}
+.why{margin:6px 0 0;font-size:14px;color:var(--mute)}
+.garage{background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:14px;margin-bottom:10px}
+.garage h3{margin:0;font-size:17px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{display:inline-block;padding:10px 14px;border-radius:8px;font-weight:600;text-decoration:none;font-size:15px;border:1.5px solid var(--ink);color:var(--ink);background:#fff}
+.btn.wa{background:var(--green);border-color:var(--green);color:#fff}
+.reset{margin-top:20px;background:none;border:none;color:var(--teal);font:inherit;font-weight:600;text-decoration:underline;cursor:pointer;padding:8px 0}
+small.s{color:var(--mute)}
+
+html{scroll-behavior:smooth}
+.hero{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 50% 100%,#1B2A31 0%,#0B1418 70%);color:#fff;min-height:80vh;min-height:80svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:env(safe-area-inset-top,0px) 24px 0}
+#smoke{position:absolute;inset:0;width:100%;height:100%}
+.hero-in{position:relative;z-index:1;max-width:560px}
+.hero h1{font-size:clamp(84px,24vw,140px);margin:0;letter-spacing:2px;line-height:.9;text-shadow:0 0 40px rgba(255,255,255,.25);animation:clear 2.4s ease-out both}
+.hero .app{font-family:"Barlow Condensed",sans-serif;font-size:28px;font-weight:600;color:var(--amber);margin:6px 0 0;animation:clear 2.4s .4s ease-out both}
+.hero .tag2{font-size:22px;color:#D5DDE1;margin:18px 0 26px;animation:clear 2.4s .9s ease-out both}
+.hero .cta{display:inline-block;background:var(--amber);color:var(--ink);font-weight:600;text-decoration:none;padding:14px 26px;border-radius:8px;animation:clear 2.4s 1.3s ease-out both}
+@keyframes clear{from{opacity:0;filter:blur(16px);transform:translateY(14px)}to{opacity:1;filter:blur(0);transform:none}}
+@media (prefers-reduced-motion:reduce){.hero h1,.hero .app,.hero .tag2,.hero .cta{animation:none}}
+footer{background:#0B1418;color:#C3CED3;padding:36px 20px calc(36px + env(safe-area-inset-bottom,0px));text-align:center}
+footer .brand{font-family:"Barlow Condensed",sans-serif;font-size:32px;font-weight:700;color:#fff;line-height:1}
+footer .by{margin:18px 0 2px;font-size:15px;color:#8FA0A8}
+footer .name{font-family:"Barlow Condensed",sans-serif;font-size:26px;font-weight:700;color:#fff}
+footer small{display:block;margin-top:16px;color:#8FA0A8;line-height:1.4}
+a.opt{display:block;text-decoration:none}
+.topbar{position:sticky;top:0;z-index:5;background:#0B1418;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+.topbar a{color:#fff;text-decoration:none;font-weight:600;padding:6px 0}
+.topbar b{font-family:"Barlow Condensed",sans-serif;font-size:26px}
+ol.how{padding-left:20px;margin:0}
+ol.how li{margin-bottom:8px}
+</style>
+</head>
+<body>
+<div id="pg-home">
+<header class="hero">
+  <canvas id="smoke" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <h1>Carzz</h1>
+    <p class="app">web app</p>
+    <p class="tag2">Better car, better life.</p>
+    <a class="cta" href="#check-sound">Check my car</a>
+  </div>
+</header>
+<div class="tape"></div>
+<main>
+  <p class="lead" style="font-size:18px;color:var(--ink)">Carzz helps drivers understand what their car is trying to tell them. Choose a sound, a warning light, a door problem or a leak, and see the likely causes, how urgent it is and a rough repair cost. Then find garages near you.</p>
+  <h2>What do you want to check?</h2>
+  <div class="grid">
+    <a class="opt" href="#check-sound"><b>Sounds</b><span>Grinding, squealing, knocking and more</span></a>
+    <a class="opt" href="#check-issue"><b>Lights, doors &amp; leaks</b><span>Warning lights, locks, windows, fluid spots</span></a>
+  </div>
+  <h2>How it works</h2>
+  <ol class="how">
+    <li>Pick what you hear, see or notice.</li>
+    <li>Get likely causes, urgency and a rough cost in KSh.</li>
+    <li>Contact a garage near you on WhatsApp or Maps.</li>
+  </ol>
+</main>
+</div>
+
+<div id="pg-check" class="hide">
+<nav class="topbar"><a href="#">&larr; Home</a><b>Carzz</b></nav>
+<div class="tape"></div>
+<main>
+  <div class="chips" id="modes"></div>
+  <h2 id="h1">1. What does it sound like?</h2>
+  <div class="grid" id="sounds"></div>
+
+  <div id="step2" class="hide">
+    <h2 id="h2">2. When does it happen?</h2>
+    <div class="chips" id="whens"></div>
+  </div>
+
+  <div id="step3" class="hide">
+    <h2>3. Likely causes</h2>
+    <div class="note"><b>This is only a probability, not a diagnosis.</b> Sounds can have several causes. Have a mechanic inspect your car to confirm before paying for repairs.</div>
+    <div id="causes"></div>
+    <small class="s">Costs are rough Nairobi estimates for parts and labour and vary by car model and garage.</small>
+
+    <h2>Mechanics near you</h2>
+    <p class="lead" style="margin-bottom:10px">Pick your area:</p>
+    <div class="chips" id="areas"></div>
+    <label for="car" style="display:block;margin:16px 0 6px;font-weight:600">Your car (optional, added to your WhatsApp message)</label>
+    <input type="text" id="car" placeholder="e.g. Toyota Axio 2014">
+    <div id="garages" style="margin-top:14px"></div>
+    <button class="reset" id="reset">Start over</button>
+  </div>
+</main>
+</div>
+<footer>
+  <div class="brand">Carzz</div>
+  <small style="margin-top:6px">Better car, better life.</small>
+  <p class="by">Created by</p>
+  <!-- To add more team members, copy the next line -->
+  <div class="name">Bethwel Mudinyu</div>
+  <small>A student project at Pioneer International University.<br>Carzz shows probabilities, not diagnoses. Always have a mechanic confirm.</small>
+</footer>
+
+<script>
+/* ===== DATA: edit this section ===== */
+const SOUNDS={
+  grinding:"Metal scraping or crunching",
+  squealing:"High-pitched screech",
+  knocking:"Deep thud or tap",
+  clicking:"Rapid ticking or a single click",
+  hissing:"Air or steam escaping",
+  rattling:"Loose, shaky buzz",
+  humming:"Low drone that rises with speed",
+  whining:"Steady high-pitched moan"
+};
+const WHEN={braking:"When braking",starting:"When starting",turning:"When turning",accelerating:"When accelerating",idling:"When idling",bumps:"Over bumps"};
+
+/* "sound|when": [ [cause, probability %, urgency (stop/soon/watch), cost range KSh, short explanation], ... ] */
+const D={
+"grinding|braking":[
+ ["Worn-out brake pads (metal on metal)",65,"stop","3,000 – 8,000","The pad material is gone and metal is rubbing on the disc."],
+ ["Damaged brake discs",25,"stop","6,000 – 15,000","Deep grooves from worn pads or debris."],
+ ["Stone or debris caught in the brake",10,"soon","500 – 2,000","Often clears with a clean-out."]],
+"grinding|starting":[
+ ["Worn starter motor gear",65,"soon","6,000 – 15,000","The starter is not meshing cleanly with the engine."],
+ ["Damaged flywheel teeth",35,"soon","15,000 – 40,000","Teeth worn from repeated starter contact."]],
+"grinding|turning":[
+ ["Worn wheel bearing",50,"soon","4,000 – 10,000","Gets louder as you turn toward the bad side."],
+ ["Worn CV joint",35,"soon","5,000 – 12,000","Often also clicks on full-lock turns."],
+ ["Low power steering fluid",15,"watch","500 – 1,500","Top up and check for leaks."]],
+"grinding|accelerating":[
+ ["Worn clutch or gearbox parts",45,"soon","8,000 – 35,000","More likely if gear changes feel rough."],
+ ["Worn wheel bearing",30,"soon","4,000 – 10,000","Noise changes with speed."],
+ ["Differential wear",25,"soon","10,000 – 30,000","Usually worse under load."]],
+"squealing|braking":[
+ ["Brake pad wear indicator",60,"soon","3,000 – 8,000","A small metal tab warns that pads are nearly finished."],
+ ["Glazed brake discs or pads",25,"soon","3,000 – 10,000","Hard, shiny surfaces from heat."],
+ ["Sticking brake caliper",15,"stop","4,000 – 12,000","Can overheat the brake. Get it checked fast."]],
+"squealing|starting":[
+ ["Loose or worn drive belt",65,"soon","1,500 – 4,000","Common on cold mornings."],
+ ["Failing belt tensioner",20,"soon","3,000 – 8,000","Does not hold the belt tight enough."],
+ ["Alternator bearing",15,"soon","6,000 – 18,000","Often comes with a battery light."]],
+"squealing|turning":[
+ ["Low power steering fluid or weak pump",55,"soon","500 – 12,000","Noise is loudest at full steering lock."],
+ ["Loose or worn drive belt",30,"soon","1,500 – 4,000","Belt slips when the pump is under load."],
+ ["Dry suspension bushings",15,"watch","1,000 – 5,000","Squeaks as the car moves and turns."]],
+"squealing|accelerating":[
+ ["Loose or worn drive belt",60,"soon","1,500 – 4,000","Slips when the engine revs up."],
+ ["Failing pulley or water pump bearing",25,"soon","4,000 – 15,000","Can lead to overheating."],
+ ["Slipping clutch",15,"soon","8,000 – 25,000","Revs rise but speed does not."]],
+"knocking|accelerating":[
+ ["Engine knock from poor fuel or carbon build-up",40,"watch","1,500 – 6,000","Try better quality fuel and a fuel system clean."],
+ ["Worn engine bearings",30,"stop","40,000 – 150,000","Serious. Keep driving and you risk engine failure."],
+ ["Faulty spark plugs or ignition",30,"soon","2,000 – 7,000","Causes misfires and pinging."]],
+"knocking|idling":[
+ ["Low engine oil or worn rod bearings",45,"stop","1,000 – 80,000","Check oil level first. Do not drive if the light is on."],
+ ["Worn valve train (lifters)",30,"soon","5,000 – 25,000","Ticking or tapping that fades as the engine warms."],
+ ["Engine misfire",25,"soon","2,000 – 8,000","Uneven shaking with the sound."]],
+"knocking|bumps":[
+ ["Worn shock absorbers or strut mounts",40,"soon","5,000 – 20,000","Thump from the front or rear on rough roads."],
+ ["Worn stabilizer links",35,"watch","1,500 – 4,000","Cheap and quick to replace."],
+ ["Worn ball joints",25,"stop","4,000 – 12,000","Failure can cause loss of steering control."]],
+"knocking|turning":[
+ ["Worn CV joint",55,"soon","5,000 – 12,000","Knock or click on tight turns."],
+ ["Worn tie rod ends",25,"soon","3,000 – 8,000","Loose steering feel."],
+ ["Worn strut mounts",20,"watch","4,000 – 10,000","Clunk when turning the wheel."]],
+"clicking|starting":[
+ ["Weak or flat battery",55,"soon","500 – 12,000","Try a jump-start and have the battery tested."],
+ ["Faulty starter solenoid",30,"soon","4,000 – 12,000","Single click, then nothing."],
+ ["Corroded battery terminals",15,"watch","300 – 1,000","Clean the terminals first."]],
+"clicking|turning":[
+ ["Worn CV joint",70,"soon","5,000 – 12,000","Rapid clicking on full-lock turns is the classic sign."],
+ ["Worn wheel bearing",15,"soon","4,000 – 10,000","Noise rises with speed."],
+ ["Loose wheel trim or nut",15,"stop","0 – 1,000","Check wheel nuts right away."]],
+"clicking|idling":[
+ ["Low oil or sticky valve lifters",50,"soon","1,000 – 20,000","Check oil level first."],
+ ["Normal fuel injector ticking",30,"watch","0","Often harmless if the engine runs smoothly."],
+ ["Loose heat shield",20,"watch","500 – 2,000","Tick from under the car."]],
+"hissing|idling":[
+ ["Vacuum leak",45,"soon","1,000 – 6,000","Rough idle and a check-engine light often come with it."],
+ ["Coolant leak on a hot engine",35,"stop","1,500 – 15,000","Watch the temperature gauge. Do not drive if it overheats."],
+ ["Exhaust or air intake leak",20,"soon","1,000 – 8,000","Can cut power and raise fuel use."]],
+"hissing|braking":[
+ ["Brake booster or vacuum leak",60,"stop","8,000 – 25,000","Pedal may feel hard. Get this checked immediately."],
+ ["Brake fluid or line leak",25,"stop","3,000 – 10,000","Soft pedal is a warning sign."],
+ ["Normal ABS or pad air noise",15,"watch","0","Brief and not repeated."]],
+"rattling|idling":[
+ ["Loose exhaust heat shield",50,"watch","500 – 2,000","Cheap fix with a clamp or bolt."],
+ ["Worn catalytic converter",30,"soon","10,000 – 60,000","Broken inside, like shaking gravel."],
+ ["Loose belt tensioner",20,"soon","3,000 – 8,000","Rattle changes with engine speed."]],
+"rattling|bumps":[
+ ["Worn stabilizer links",40,"watch","1,500 – 4,000","Rattle over small bumps."],
+ ["Loose exhaust hanger",30,"watch","500 – 2,500","Exhaust hits the body."],
+ ["Worn shocks or bushings",30,"soon","5,000 – 20,000","Poor ride and long stopping distance."]],
+"rattling|accelerating":[
+ ["Engine pinging from poor fuel",35,"watch","1,500 – 5,000","Light rattle under load."],
+ ["Loose heat shield",35,"watch","500 – 2,000","Buzz at certain engine speeds."],
+ ["Failing catalytic converter",30,"soon","10,000 – 60,000","Power loss may come with it."]],
+"humming|accelerating":[
+ ["Worn wheel bearing",50,"soon","4,000 – 10,000","Hum grows with speed."],
+ ["Uneven or cupped tyres",30,"watch","1,000 – 4,000","Rotate or balance the tyres."],
+ ["Differential or gearbox wear",20,"soon","10,000 – 35,000","Check fluid levels."]],
+"humming|turning":[
+ ["Worn wheel bearing",65,"soon","4,000 – 10,000","Hum changes when you steer left or right."],
+ ["Uneven tyre wear",20,"watch","1,000 – 4,000","Check tyre tread and alignment."],
+ ["Power steering issue",15,"watch","500 – 8,000","Check fluid level."]],
+"humming|idling":[
+ ["Failing alternator",40,"soon","6,000 – 18,000","Watch for a battery warning light."],
+ ["Weak fuel pump",35,"soon","8,000 – 25,000","Hard starting can come with it."],
+ ["Worn idler pulley or AC compressor",25,"watch","3,000 – 15,000","Turn the AC off to test."]],
+"whining|accelerating":[
+ ["Low gearbox fluid",40,"soon","1,500 – 6,000","Check fluid level and colour."],
+ ["Failing alternator",30,"soon","6,000 – 18,000","Whine rises with revs."],
+ ["Power steering pump",30,"soon","500 – 12,000","Check for low fluid."]],
+"whining|turning":[
+ ["Power steering pump or low fluid",70,"soon","500 – 12,000","Whine is loudest when turning the wheel."],
+ ["Steering rack wear",20,"soon","15,000 – 45,000","Check for leaks near the rack."],
+ ["Loose drive belt",10,"watch","1,500 – 4,000","Belt slips under steering load."]],
+"whining|idling":[
+ ["Failing alternator",45,"soon","6,000 – 18,000","Often comes with dim lights."],
+ ["Power steering pump",30,"soon","500 – 12,000","Check fluid level."],
+ ["Water pump bearing",25,"stop","6,000 – 15,000","Can lead to overheating."]]
+};
+
+/* Lights, doors and leaks. Same format: "category|symptom": [cause, probability %, urgency, cost KSh, explanation] */
+const ISSUES={
+  lights:["Warning lights & bulbs","Dashboard warnings, dim or dead lights"],
+  doors:["Doors, locks & windows","Won’t open, lock or close"],
+  leaks:["Fluid leaks","Spots or puddles under the car"]
+};
+const SYMP={
+  "oil-light":"Oil pressure light is on","check-engine":"Check engine light is on","battery-light":"Battery light is on","temp-light":"Temperature light or overheating","brake-light":"Brake warning light is on","headlights-dim":"Headlights dim or flicker","bulb-out":"Headlight or brake light not working",
+  "wont-lock":"Door won’t lock or unlock","wont-open":"Door won’t open","window-stuck":"Window won’t move","wont-close":"Door won’t close properly","wind-noise":"Wind noise or water coming in",
+  "oil":"Dark brown or black fluid","coolant":"Green, pink or orange fluid","brake":"Clear or yellowish oily fluid near a wheel","gearbox":"Red or pink fluid","water":"Clear water under the car"
+};
+Object.assign(D,{
+"lights|oil-light":[
+ ["Low engine oil",45,"stop","1,000 – 3,000","Stop, let the engine cool and check the dipstick."],
+ ["Faulty oil pressure sensor",30,"soon","2,000 – 5,000","Light is on but the oil level is fine."],
+ ["Weak oil pump or worn engine",25,"stop","15,000 – 90,000","Serious. Do not keep driving."]],
+"lights|check-engine":[
+ ["Loose or faulty fuel cap",25,"watch","200 – 1,500","Tighten it and see if the light clears after a few trips."],
+ ["Faulty oxygen sensor",30,"soon","4,000 – 12,000","Raises fuel use over time."],
+ ["Misfire from spark plugs or coil",30,"soon","2,000 – 9,000","If the light is flashing, stop driving."],
+ ["Failing catalytic converter",15,"soon","10,000 – 60,000","Often follows an ignored misfire."]],
+"lights|battery-light":[
+ ["Failing alternator",55,"soon","6,000 – 18,000","The battery is not charging while you drive."],
+ ["Loose or worn drive belt",25,"soon","1,500 – 4,000","A slipping belt stops the alternator charging."],
+ ["Bad battery or loose terminals",20,"watch","500 – 12,000","Clean and tighten terminals, then test the battery."]],
+"lights|temp-light":[
+ ["Low coolant from a leak",45,"stop","1,500 – 15,000","Switch off and let it cool. Never open a hot radiator cap."],
+ ["Stuck thermostat",25,"stop","2,000 – 6,000","Coolant is not reaching the radiator."],
+ ["Failed radiator fan",20,"stop","3,000 – 10,000","Overheats mostly in traffic."],
+ ["Failing water pump",10,"stop","6,000 – 15,000","Often leaks or whines."]],
+"lights|brake-light":[
+ ["Low brake fluid or worn pads",50,"stop","1,000 – 8,000","Check the fluid level and the pads."],
+ ["Handbrake not released or sensor fault",30,"watch","0 – 3,000","Release the handbrake fully and check again."],
+ ["Brake system leak",20,"stop","3,000 – 12,000","A soft pedal is a warning sign."]],
+"lights|headlights-dim":[
+ ["Failing alternator",40,"soon","6,000 – 18,000","Lights get dimmer at idle."],
+ ["Weak battery or bad earth wire",35,"soon","500 – 12,000","Test the battery and earth cable."],
+ ["Old bulbs or dirty connectors",25,"watch","300 – 2,000","Cheap to fix."]],
+"lights|bulb-out":[
+ ["Blown bulb",60,"watch","200 – 1,500","Replace with the same type."],
+ ["Blown fuse",25,"watch","100 – 500","Check the fuse box."],
+ ["Wiring or relay fault",15,"soon","1,000 – 5,000","Needs an auto electrician."]],
+"doors|wont-lock":[
+ ["Faulty door lock actuator",45,"watch","3,000 – 8,000","One door behaves differently from the others."],
+ ["Weak key fob battery",30,"watch","100 – 500","Replace the fob battery first."],
+ ["Blown central locking fuse or wiring",25,"soon","1,000 – 5,000","All doors stop responding."]],
+"doors|wont-open":[
+ ["Broken door handle or cable",50,"watch","1,500 – 5,000","The handle feels loose or limp."],
+ ["Child lock on or stuck latch",30,"watch","0 – 3,000","Check the child lock switch on the door edge."],
+ ["Failed lock actuator",20,"watch","3,000 – 8,000","The lock motor is not releasing."]],
+"doors|window-stuck":[
+ ["Faulty window switch",35,"watch","500 – 3,000","Try the switch on another door."],
+ ["Failed window motor",35,"watch","3,000 – 8,000","You hear nothing when pressing the switch."],
+ ["Broken window regulator",30,"watch","3,000 – 9,000","Motor runs but the glass does not move."]],
+"doors|wont-close":[
+ ["Worn door latch or striker",45,"soon","1,500 – 5,000","The door bounces back when closed."],
+ ["Worn hinges or seals",30,"watch","1,000 – 6,000","The door sags or rubs."],
+ ["Misaligned door after an impact",25,"soon","3,000 – 15,000","Check for body damage."]],
+"doors|wind-noise":[
+ ["Worn door seals",60,"watch","1,500 – 6,000","Whistling at speed or water coming in."],
+ ["Blocked drain holes",25,"watch","500 – 2,000","Water collects at the bottom of the door."],
+ ["Misaligned door",15,"watch","3,000 – 10,000","The gap looks uneven."]],
+"leaks|oil":[
+ ["Leaking valve cover gasket",35,"soon","3,000 – 8,000","Oil on top of the engine."],
+ ["Loose drain plug or worn sump gasket",30,"soon","500 – 6,000","Oil under the middle of the engine."],
+ ["Leaking oil filter",20,"stop","500 – 2,000","Can empty the engine quickly. Check the oil level."],
+ ["Worn crankshaft seal",15,"soon","8,000 – 30,000","Slow drip at the front or back of the engine."]],
+"leaks|coolant":[
+ ["Radiator or hose leak",50,"stop","1,500 – 12,000","Sweet smell and a falling coolant level."],
+ ["Water pump leak",30,"stop","6,000 – 15,000","Drip near the front of the engine."],
+ ["Loose radiator cap or heater hose",20,"soon","500 – 3,000","Often a cheap fix."]],
+"leaks|brake":[
+ ["Brake line or caliper leak",70,"stop","3,000 – 12,000","Do not drive. The brakes can fail."],
+ ["Master cylinder leak",30,"stop","6,000 – 15,000","The pedal sinks slowly."]],
+"leaks|gearbox":[
+ ["Gearbox seal or pan gasket",45,"soon","4,000 – 15,000","Red or brown fluid and rough shifting."],
+ ["Power steering hose leak",40,"soon","2,000 – 8,000","Whine when turning."],
+ ["Transmission cooler line",15,"soon","3,000 – 8,000","Fluid near the radiator."]],
+"leaks|water":[
+ ["Normal AC condensation",80,"watch","0","Clear water under the front is normal when the AC runs."],
+ ["Coolant leak mixed with water",20,"soon","1,500 – 12,000","Check for colour or a sweet smell."]]
+});
+
+/* AREAS and GARAGES. To add a garage, copy one line and change it.
+   phone is optional: format 2547XXXXXXXX (no + or spaces). Leave it "" and the WhatsApp button is hidden.
+   Set verified:true only after you have checked the garage yourself. */
+const AREAS=["Near me","Westlands","Ngong Road","Industrial Area","Thika Road","CBD"];
+const GARAGES=[
+ {name:"ARGA Motors",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Bawinjo Supplies Centre",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Zakis Auto Care",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Zayn Autocare",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Executive Auto Services",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Burudi Mechanical Services",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Dieselland Africa",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"AutoTruck Solutions",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Chivondo Auto Enterprises",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Chrisdan Enterprise Limited",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Hong Kong Kenya Limited",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Aichehang Auto Parts & Garage",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Code Your Beemer",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Spraymasters",type:"Car repair shop",area:"Near me",phone:""},
+ {name:"Mutuku Motorcycle Garage",type:"Motorbike repair",area:"Near me",phone:""}
+];
+/* ===== END DATA ===== */
+
+const URG={stop:["Stop driving","red"],soon:["Fix this week","amber"],watch:["Check at next service","green"]};
+const $=id=>document.getElementById(id);
+let st={sound:null,when:null,area:AREAS[0]};
+let mode="sound";
+const LBL=()=>mode==="sound"?WHEN:SYMP;
+const describe=()=>mode==="sound"?"makes a "+st.sound+" sound "+WHEN[st.when].toLowerCase():"has this problem ("+ISSUES[st.sound][0]+"): "+SYMP[st.when];
+function items(){return mode==="sound"?Object.keys(SOUNDS).map(k=>[k,k,SOUNDS[k]]):Object.keys(ISSUES).map(k=>[k,ISSUES[k][0],ISSUES[k][1]]);}
+
+function btn(parent,html,cls,pressed,fn){
+  const b=document.createElement("button");
+  b.className=cls;b.type="button";b.innerHTML=html;
+  b.setAttribute("aria-pressed",pressed);
+  b.onclick=fn;parent.appendChild(b);
+}
+function drawSounds(){
+  $("sounds").innerHTML="";
+  items().forEach(([k,t,d])=>btn($("sounds"),"<b>"+t+"</b><span>"+d+"</span>","opt",st.sound===k,()=>{
+    st.sound=k;st.when=null;drawSounds();drawWhens();$("step3").classList.add("hide");
+    $("step2").classList.remove("hide");$("step2").scrollIntoView({behavior:"smooth",block:"start"});
+  }));
+}
+function drawWhens(){
+  $("whens").innerHTML="";
+  Object.keys(LBL()).filter(w=>D[st.sound+"|"+w]).forEach(w=>btn($("whens"),LBL()[w],"chip",st.when===w,()=>{
+    st.when=w;drawWhens();showResults();
+  }));
+}
+function drawAreas(){
+  $("areas").innerHTML="";
+  AREAS.forEach(a=>btn($("areas"),a,"chip",st.area===a,()=>{st.area=a;drawAreas();drawGarages();}));
+}
+function showResults(){
+  const list=D[st.sound+"|"+st.when];
+  $("causes").innerHTML=list.map(c=>{
+    const u=URG[c[2]];
+    return '<div class="cause"><h3>'+c[0]+'</h3>'+
+      '<div class="bar"><i style="width:'+c[1]+'%"></i></div>'+
+      '<div class="meta"><b style="color:var(--ink)">'+c[1]+'% likely</b>'+
+      '<span class="tag '+u[1]+'">'+u[0]+'</span><span>KSh '+c[3]+'</span></div>'+
+      '<p class="why">'+c[4]+'</p></div>';
+  }).join("");
+  $("step3").classList.remove("hide");
+  drawAreas();drawGarages();
+  $("step3").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function drawGarages(){
+  const top=D[st.sound+"|"+st.when][0][0];
+  const car=$("car").value.trim();
+  const msg=encodeURIComponent("Hi, my "+(car||"car")+" "+describe()+". An app suggested it could be: "+top+". Can I book a check?");
+  const mapSearch="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(st.area==="Near me"?"car mechanic near me":"car mechanic garage "+st.area+" Nairobi");
+  const here=GARAGES.filter(g=>g.area===st.area);
+  let h=here.map(g=>{
+    const mp="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(g.name+" Kenya");
+    return '<div class="garage"><h3><a style="color:var(--teal)" target="_blank" rel="noopener" href="'+mp+'">'+g.name+'</a></h3>'+
+    '<div class="meta"><span>'+g.type+'</span>'+
+    (g.verified?'<span class="tag green">Verified</span>':'<span>Not yet verified</span>')+'</div>'+
+    '<div class="btns">'+
+    (g.phone?'<a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/'+g.phone+'?text='+msg+'">Book on WhatsApp</a>':'')+
+    '<a class="btn" target="_blank" rel="noopener" href="'+mp+'">View on Maps</a></div></div>';
+  }).join("");
+  if(!here.length)h='<p class="lead">No garages saved for '+st.area+' yet.</p>';
+  h+='<a class="btn" target="_blank" rel="noopener" href="'+mapSearch+'">Find more garages in '+st.area+'</a>';
+  h+='<p><small class="s">Listings come from map searches and are not verified by this app. Call ahead to confirm prices and opening hours.</small></p>';
+  $("garages").innerHTML=h;
+}
+$("car").addEventListener("input",()=>{if(st.when)drawGarages();});
+$("reset").onclick=()=>{st={sound:null,when:null,area:AREAS[0]};drawSounds();$("step2").classList.add("hide");$("step3").classList.add("hide");window.scrollTo({top:0,behavior:"smooth"});};
+function setMode(m){
+  mode=m;st.sound=null;st.when=null;
+  $("h1").textContent=m==="sound"?"1. What does it sound like?":"1. What kind of problem?";
+  $("h2").textContent=m==="sound"?"2. When does it happen?":"2. What exactly do you notice?";
+  $("modes").innerHTML="";
+  [["sound","Sounds"],["issue","Lights, doors & leaks"]].forEach(([k,t])=>btn($("modes"),t,"chip",mode===k,()=>{location.hash="#check-"+k;}));
+  drawSounds();$("step2").classList.add("hide");$("step3").classList.add("hide");
+}
+function route(){
+  const h=location.hash,on=h.indexOf("#check")===0;
+  $("pg-home").classList.toggle("hide",on);
+  $("pg-check").classList.toggle("hide",!on);
+  if(on){const m=h==="#check-issue"?"issue":"sound";if(m!==mode||!$("sounds").children.length)setMode(m);}
+  else setTimeout(()=>dispatchEvent(new Event("resize")),0);
+  window.scrollTo(0,0);
+}
+addEventListener("hashchange",route);
+route();
+
+/* Smoke effect in the hero */
+(function(){
+  const c=$("smoke"),x=c.getContext("2d");
+  let W,H,P=[];
+  const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function size(){const r=c.getBoundingClientRect();W=c.width=r.width;H=c.height=r.height;
+    P=[];const n=Math.max(18,Math.round(W/11));for(let i=0;i<n;i++)P.push(make(true));}
+  function make(init){return{x:Math.random()*W,y:init?Math.random()*H:H+60,r:50+Math.random()*90,vx:(Math.random()-.5)*.35,vy:-(.25+Math.random()*.55),a:.05+Math.random()*.11};}
+  function frame(){
+    x.clearRect(0,0,W,H);
+    P.forEach((p,i)=>{
+      if(!still){p.x+=p.vx+Math.sin((p.y+i*40)/90)*.25;p.y+=p.vy;p.r+=.12;}
+      const fade=Math.min(1,Math.max(0,p.y/(H*.9)))*Math.min(1,(H-p.y+80)/160);
+      const g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+      g.addColorStop(0,"rgba(215,222,226,"+(p.a*fade)+")");
+      g.addColorStop(1,"rgba(215,222,226,0)");
+      x.fillStyle=g;x.beginPath();x.arc(p.x,p.y,p.r,0,6.2832);x.fill();
+      if(p.y<-p.r)P[i]=make(false);
+    });
+    if(!still)requestAnimationFrame(frame);
+  }
+  size();frame();
+  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{size();if(still)frame();},200);});
+})();
+</script>
+</body>
+</html>
